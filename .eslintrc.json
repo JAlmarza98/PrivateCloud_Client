@@ -5,8 +5,9 @@
     {
       "files": ["*.ts"],
       "parserOptions": {
-        "project": ["tsconfig.json", "e2e/tsconfig.json"],
-        "createDefaultProgram": true
+        "project": "tsconfig.json",
+        "tsconfigRootDir": "PrivateCloud_Client",
+        "sourceType": "module"
       },
       "extends": [
         "plugin:@angular-eslint/ng-cli-compat",

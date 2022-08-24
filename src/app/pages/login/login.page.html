@@ -1,0 +1,48 @@
+<ion-header>
+  <ion-toolbar color="primary">
+    <ion-title>Private Cloud</ion-title>
+  </ion-toolbar>
+</ion-header>
+
+<ion-content>
+  <form (ngSubmit)="login()" [formGroup]="credentials">
+    <div class="input-group">
+      <ion-item>
+        <ion-input
+          type="email"
+          placeholder="Email"
+          formControlName="email"
+        ></ion-input>
+      </ion-item>
+      <div
+        *ngIf="(email.dirty || email.touched) && email.errors"
+        class="errors"
+      >
+        <span *ngIf="email.errors?.required">El email no puede esta vacío</span>
+        <span *ngIf="email.errors?.email">El email no es válido</span>
+      </div>
+      <ion-item>
+        <ion-input
+          type="password"
+          placeholder="Password"
+          formControlName="password"
+        ></ion-input>
+      </ion-item>
+      <div
+        *ngIf="(password.dirty || password.touched) && password.errors"
+        class="errors"
+      >
+        <span *ngIf="password.errors?.required"
+          >La contraseña no puede esta vacía</span
+        >
+        <span *ngIf="password.errors?.minlength"
+          >La contraseña debe tener al menos 6 caracteres</span
+        >
+      </div>
+    </div>
+
+    <ion-button type="submit" expand="block" [disabled]="!credentials.valid"
+      >Entrar</ion-button
+    >
+  </form>
+</ion-content>
