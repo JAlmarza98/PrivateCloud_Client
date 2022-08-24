@@ -1,0 +1,7 @@
+{
+  "name": "PrivateCloud_Client",
+  "integrations": {
+    "capacitor": {}
+  },
+  "type": "angular"
+}
