@@ -25,3 +25,15 @@
 #container a {
   text-decoration: none;
 }
+
+.item {
+  display: flex;
+  flex-direction: column;
+  margin: 10px;
+  .icon{
+    height: 105px; width: 105px;
+  }
+  .label{
+    padding-left: 20px;
+  }
+}

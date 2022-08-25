@@ -1,0 +1,29 @@
+<ion-menu side="start" menuId="first" contentId="homelayout">
+  <ion-header>
+    <ion-toolbar>
+      <ion-title>Private Cloud</ion-title>
+    </ion-toolbar>
+  </ion-header>
+  <ion-content>
+    <ion-menu-toggle>
+      <ion-list>
+        <ion-item
+          *ngFor="let item of menuItems"
+          class="pointer"
+          [routerLink]="item.route"
+        >
+          <ion-icon class="ion-margin-end" [name]="item.icon"></ion-icon>
+          {{ item.name }}
+        </ion-item>
+      </ion-list>
+    </ion-menu-toggle>
+  </ion-content>
+  <ion-footer>
+    <ion-list>
+      <ion-item class="pointer" (click)="logout()">
+        <ion-icon class="ion-margin-end" name="log-out-outline"></ion-icon>
+        Cerrar sesión
+      </ion-item>
+    </ion-list>
+  </ion-footer>
+</ion-menu>

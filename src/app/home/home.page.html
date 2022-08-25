@@ -3,32 +3,32 @@
     <ion-buttons slot="start">
       <ion-menu-button autoHide="false"></ion-menu-button>
     </ion-buttons>
-    <ion-title>Home</ion-title>
+    <ion-title>Private Cloud</ion-title>
   </ion-toolbar>
 </ion-header>
-<ion-menu side="start" menuId="first" contentId="homelayout">
-  <ion-content>
-    <ion-list>
-      <ion-item>Menu Item</ion-item>
-      <ion-item>Menu Item</ion-item>
-      <ion-item>Menu Item</ion-item>
-      <ion-item>Menu Item</ion-item>
-      <ion-item>Menu Item</ion-item>
-    </ion-list>
-  </ion-content>
-</ion-menu>
+<app-side-menu></app-side-menu>
 
 <ion-content [fullscreen]="true">
   <div id="homelayout">
-    <div>
-      <ul>
-        <li
-          routerLink="/login"
-          style="color: rgb(45, 45, 255); cursor: pointer; list-style: none"
-        >
-          Login
-        </li>
-      </ul>
-    </div>
+    <app-breadcrumb></app-breadcrumb>
+    <ion-grid>
+      <ion-card *ngIf="content.length === 0">
+        <ion-item disabled class="ion-text-center">
+          <ion-label>No hay nada en este directorio</ion-label>
+        </ion-item>
+      </ion-card>
+      <ion-row>
+        <div *ngFor="let item of content">
+          <div *ngIf="!item.includes('.')" class="item">
+            <ion-icon class="icon" name="folder-outline"></ion-icon>
+            <span class="label">{{item}}</span>
+          </div>
+          <div *ngIf="item.includes('.')" class="item">
+            <ion-icon class="icon" name="document-outline"></ion-icon>
+            <span class="label">{{item}}</span>
+          </div>
+        </div>
+      </ion-row>
+    </ion-grid>
   </div>
 </ion-content>
