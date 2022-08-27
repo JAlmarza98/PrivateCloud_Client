@@ -6,24 +6,21 @@
 
 <ion-content>
   <div class="input-text">
-    <h1>Login</h1>
+    <h2>Bienvenido! 👋</h2>
+    <p>Por favor, completa el formulario para entrar</p>
   </div>
-
-  <form (ngSubmit)="login()" [formGroup]="credentials">
+  <form (ngSubmit)="register()" [formGroup]="credentials">
     <div class="input-group">
       <ion-item>
         <ion-input
-          type="email"
-          placeholder="Email"
-          formControlName="email"
+          type="text"
+          placeholder="Nombre"
+          formControlName="name"
         ></ion-input>
       </ion-item>
-      <div
-        *ngIf="(email.dirty || email.touched) && email.errors"
-        class="errors"
-      >
-        <span *ngIf="email.errors?.required">El email no puede esta vacío</span>
-        <span *ngIf="email.errors?.email">El email no es válido</span>
+      <div *ngIf="(name.dirty || name.touched) && name.errors" class="errors">
+        <span *ngIf="name.errors?.required">El nombre no puede esta vacío</span>
+        <span *ngIf="name.errors?.name">El nombre no es válido</span>
       </div>
       <ion-item>
         <ion-input

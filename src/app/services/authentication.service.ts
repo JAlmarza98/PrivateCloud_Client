@@ -43,4 +43,8 @@ export class AuthenticationService {
     this.isAuthenticated.next(false);
     return this.storage.remove(TOKEN_KEY);
   }
+
+  register(userId: string, name: string, password: string): Observable<any> {
+    return this.http.post(`${baseURL}/auth/confirm-user/${userId}`, {name, password});
+  }
 }

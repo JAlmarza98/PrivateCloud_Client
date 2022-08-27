@@ -15,6 +15,10 @@ const routes: Routes = [
     loadChildren: () => import('./pages/intro/intro.module').then( m => m.IntroPageModule)
   },
   {
+    path: 'register/:userId',
+    loadChildren: () => import('./pages/register/register.module').then( m => m.RegisterPageModule)
+  },
+  {
     path: 'home',
     loadChildren: () => import('./home/home.module').then( m => m.HomePageModule),
     canLoad: [AuthGuard]

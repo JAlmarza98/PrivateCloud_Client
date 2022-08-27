@@ -5,6 +5,12 @@ ion-content {
   --background: url('https://images.unsplash.com/photo-1536431311719-398b6704d4cc?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=crop&w=1234&q=80') 0 0/100% 100% no-repeat;
 }
 
+.input-text {
+  margin-bottom: 20px;
+  max-width: 600px;
+  margin: 0 auto;
+}
+
 .input-group {
   background: #fff;
   border-radius: 10px;
