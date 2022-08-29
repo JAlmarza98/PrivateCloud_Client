@@ -5,7 +5,7 @@ import { tap, switchMap } from 'rxjs/operators';
 import { StorageService } from './storage.service';
 import { environment } from '../../environments/environment.prod';
 
-const TOKEN_KEY = 'my-token';
+export const TOKEN_KEY = 'my-token';
 const {baseURL} = environment;
 
 @Injectable({

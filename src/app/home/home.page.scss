@@ -30,8 +30,10 @@
   display: flex;
   flex-direction: column;
   margin: 10px;
+  width: 110px;
   .icon{
-    height: 105px; width: 105px;
+    height: 100px; width: 100px;
+    margin: 0 auto;
   }
   .label{
     padding-left: 20px;

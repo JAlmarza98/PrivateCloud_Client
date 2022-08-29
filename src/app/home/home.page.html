@@ -6,11 +6,11 @@
     <ion-title>Private Cloud</ion-title>
   </ion-toolbar>
 </ion-header>
-<app-side-menu></app-side-menu>
+<app-side-menu (navigate)="sideMenuNavigate($event)"></app-side-menu>
 
 <ion-content [fullscreen]="true">
   <div id="homelayout">
-    <app-breadcrumb></app-breadcrumb>
+    <app-breadcrumb [path]="route"></app-breadcrumb>
     <ion-grid>
       <ion-card *ngIf="content.length === 0">
         <ion-item disabled class="ion-text-center">
@@ -19,16 +19,48 @@
       </ion-card>
       <ion-row>
         <div *ngFor="let item of content">
-          <div *ngIf="!item.includes('.')" class="item">
-            <ion-icon class="icon" name="folder-outline"></ion-icon>
-            <span class="label">{{item}}</span>
-          </div>
-          <div *ngIf="item.includes('.')" class="item">
+          <ion-card *ngIf="!item.includes('.')" class="item">
+            <ion-icon
+              class="icon"
+              name="folder-outline"
+              (click)="navigateFolder(item)"
+            ></ion-icon>
+            <ion-card-content style="padding: 5px 10px">
+              <span>{{item}}</span>
+              <ion-icon
+                style="float: right; margin-top: 2px"
+                name="ellipsis-vertical"
+                (click)="showActions(item)"
+              ></ion-icon>
+            </ion-card-content>
+          </ion-card>
+          <ion-card *ngIf="item.includes('.')" class="item">
             <ion-icon class="icon" name="document-outline"></ion-icon>
-            <span class="label">{{item}}</span>
-          </div>
+            <ion-card-content style="padding: 5px 10px">
+              <span>{{item}}</span>
+              <ion-icon
+                style="float: right; margin-top: 2px"
+                name="ellipsis-vertical"
+                (click)="showActions(item)"
+              ></ion-icon>
+            </ion-card-content>
+          </ion-card>
         </div>
       </ion-row>
     </ion-grid>
   </div>
+
+  <ion-fab horizontal="end" vertical="bottom" slot="fixed">
+    <ion-fab-button color="dark">
+      <ion-icon md="caret-up" ios="chevron-up-circle-outline"></ion-icon>
+    </ion-fab-button>
+    <ion-fab-list side="top">
+      <ion-fab-button color="light">
+        <ion-icon name="cloud-upload"></ion-icon>
+      </ion-fab-button>
+      <ion-fab-button color="light">
+        <ion-icon name="folder-open"></ion-icon>
+      </ion-fab-button>
+    </ion-fab-list>
+  </ion-fab>
 </ion-content>

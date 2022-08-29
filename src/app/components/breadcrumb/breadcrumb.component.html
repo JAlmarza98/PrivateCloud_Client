@@ -1,5 +1,7 @@
-<ion-breadcrumbs [maxItems]="4" (ionCollapsedClick)="presentPopover($event)">
-  <ion-breadcrumb href="#home">Home</ion-breadcrumb>
+<!-- <ion-breadcrumbs [maxItems]="4" (ionCollapsedClick)="presentPopover($event)">
+  <ion-breadcrumb *ngFor="let item of breadcrumbItems">{{
+    item
+  }}</ion-breadcrumb>
   <ion-breadcrumb href="#electronics">Electronics</ion-breadcrumb>
   <ion-breadcrumb href="#photography">Photography</ion-breadcrumb>
   <ion-breadcrumb href="#cameras">Cameras</ion-breadcrumb>
@@ -21,4 +23,11 @@
       </ion-list>
     </ion-content>
   </ng-template>
-</ion-popover>
+</ion-popover> -->
+
+<ion-breadcrumbs>
+  <ion-breadcrumb *ngFor="let item of breadcrumbItems">
+    {{ item }}
+    <ion-icon slot="separator" name="arrow-forward-circle"></ion-icon>
+  </ion-breadcrumb>
+</ion-breadcrumbs>
