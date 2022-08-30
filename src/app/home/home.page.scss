@@ -1,6 +1,5 @@
 #container {
   text-align: center;
-
   position: absolute;
   left: 0;
   right: 0;
@@ -29,7 +28,7 @@
 .item {
   display: flex;
   flex-direction: column;
-  margin: 10px;
+  margin: 8px;
   width: 110px;
   .icon{
     height: 100px; width: 100px;

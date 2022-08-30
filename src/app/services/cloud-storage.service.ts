@@ -20,4 +20,12 @@ export class CloudStorageService {
   getCloudSpace() {
     return this.http.get(`${baseURL}/disk/disk-info`);
   }
+
+  createFolder(token: string, route: string = '', newFolder: string) {
+    return this.http.post(`${baseURL}/dir/${route}`, {newFolder},  {headers: {Authorization: token}});
+  }
+
+  deleteCloudItem(token: string, route: string = '') {
+    return this.http.delete(`${baseURL}/dir/${route}`,  {headers: {Authorization: token}});
+  }
 }

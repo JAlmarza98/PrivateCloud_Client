@@ -6,8 +6,10 @@ import { HomePage } from './home.page';
 
 import { HomePageRoutingModule } from './home-routing.module';
 
-import { SideMenuComponent } from '../components/side-menu/side-menu.component';
-import { BreadcrumbComponent } from '../components/breadcrumb/breadcrumb.component';
+import { FabComponent } from 'app/components/fab/fab.component';
+import { SideMenuComponent } from 'app/components/side-menu/side-menu.component';
+import { BreadcrumbComponent } from 'app/components/breadcrumb/breadcrumb.component';
+import { NewFolderComponent } from 'app/components/modals/new-folder/new-folder.component';
 
 
 @NgModule({
@@ -17,6 +19,12 @@ import { BreadcrumbComponent } from '../components/breadcrumb/breadcrumb.compone
     IonicModule,
     HomePageRoutingModule
   ],
-  declarations: [HomePage, SideMenuComponent, BreadcrumbComponent]
+  declarations: [
+    HomePage,
+    SideMenuComponent,
+    BreadcrumbComponent,
+    FabComponent,
+    NewFolderComponent
+  ]
 })
 export class HomePageModule {}

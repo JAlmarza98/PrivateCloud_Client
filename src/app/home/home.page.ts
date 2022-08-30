@@ -3,7 +3,7 @@ import { ICloudStorage } from 'app/interfaces/cloud-storage.interface';
 import { CloudStorageService } from 'app/services/cloud-storage.service';
 import { StorageService } from 'app/services/storage.service';
 import { TOKEN_KEY } from 'app/services/authentication.service';
-import { ActionSheetController, LoadingController } from '@ionic/angular';
+import { ActionSheetController, AlertController, LoadingController } from '@ionic/angular';
 import { finalize } from 'rxjs/operators';
 @Component({
   selector: 'app-home',
@@ -20,7 +20,8 @@ export class HomePage implements OnInit{
     private cloudService: CloudStorageService,
     private storage: StorageService,
     public actionSheetController: ActionSheetController,
-    private loadingController: LoadingController
+    private loadingController: LoadingController,
+    private alertController: AlertController,
   ) {}
 
   async ngOnInit() {
@@ -46,6 +47,22 @@ export class HomePage implements OnInit{
     });
   }
 
+  deleteCloudItem(route: string) {
+    this.cloudService.deleteCloudItem(this.token, route)
+    .subscribe(async (resp: {success: boolean; msg: string}) => {
+      if(resp.success) {
+        this.getFolderContent(this.formatPathToNavigate(this.route));
+      } else {
+        const alert = await this.alertController.create({
+          header: 'Error al eliminar el archivo',
+          message: resp.msg,
+          buttons: ['OK'],
+        });
+        await alert.present();
+      }
+    });
+  }
+
   navigateFolder(item: string){
     let routeTo = `${this.route}_${item}`;
     routeTo = this.formatPathToNavigate(routeTo);
@@ -59,16 +76,53 @@ export class HomePage implements OnInit{
     return finalPath;
   }
 
-  sideMenuNavigate(event) {
+  sideMenuNavigate(event: string) {
     if(event === 'home'){
       this.getFolderContent();
     }
   }
 
+  async deleteItem(item: string) {
+    let routeTo = `${this.route}_${item}`;
+    routeTo = this.formatPathToNavigate(routeTo);
+    if(item.includes('.')){
+      this.deleteCloudItem(routeTo);
+    } else {
+      const route = this.formatPathToNavigate(`${this.route}_${item}`);
+      this.cloudService.getCloudFolder(this.token, route)
+        .subscribe( async (resp: ICloudStorage ) => {
+          if(resp.content.directories.length === 0 && resp.content.files.length === 0) {
+            this.deleteCloudItem(routeTo);
+          } else {
+            if(await this.presentAlertConfirm() === false) {
+              return;
+            } else{
+              this.deleteCloudItem(routeTo);
+            };
+          }
+      });
+    }
+  }
+
+  async createFolder(event: string) {
+    this.cloudService.createFolder(this.token, this.formatPathToNavigate(this.route), event). subscribe(
+      async (resp: {success: boolean; msg: string}) => {
+      if(resp.success) {
+        this.getFolderContent(this.formatPathToNavigate(this.route));
+      } else {
+        const alert = await this.alertController.create({
+          header: 'Error al crear el directorio',
+          message: resp.msg,
+          buttons: ['OK'],
+        });
+        await alert.present();
+      }
+    });
+  }
+
   async showActions(item: string) {
-    const actionSheet = await this.actionSheetController.create({
-      header: `Acciones - ${item}`,
-      buttons: [{
+    let actionBtns = [
+      {
         text: 'Eliminar',
         role: 'destructive',
         icon: 'trash',
@@ -77,7 +131,7 @@ export class HomePage implements OnInit{
           type: 'delete'
         },
         handler: () => {
-          console.log('Delete clicked');
+          this.deleteItem(item);
         }
       },
       // TODO: future feature
@@ -99,10 +153,41 @@ export class HomePage implements OnInit{
         text: 'Cancelar',
         icon: 'close',
         role: 'cancel',
-      }]
+      }
+    ];
+
+    if(!item.includes('.')) {
+      actionBtns = actionBtns.filter((btn) => btn.text !== 'Descargar');
+    }
+
+    const actionSheet = await this.actionSheetController.create({
+      header: item,
+      buttons: actionBtns
     });
     await actionSheet.present();
 
     await actionSheet.onDidDismiss();
+  }
+
+  async presentAlertConfirm() {
+    return new Promise(async (resolve) => {
+      const confirm = await this.alertController.create({
+        header: 'Directorio lleno',
+        message: 'Existen archivos dentro de este directorio que se perderan si lo elimina. ¿Desea continuar?',
+        buttons: [
+          {
+            text: 'Cancelar',
+            role: 'cancel',
+            handler: () => resolve(false),
+          },
+          {
+            text: 'Continuar',
+            handler: () => resolve(true),
+          },
+        ],
+      });
+
+      await confirm.present();
+    });
   }
 }

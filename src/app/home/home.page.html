@@ -13,7 +13,7 @@
     <app-breadcrumb [path]="route"></app-breadcrumb>
     <ion-grid>
       <ion-card *ngIf="content.length === 0">
-        <ion-item disabled class="ion-text-center">
+        <ion-item disabled class="ion-text-center" style="width: 100%">
           <ion-label>No hay nada en este directorio</ion-label>
         </ion-item>
       </ion-card>
@@ -22,7 +22,7 @@
           <ion-card *ngIf="!item.includes('.')" class="item">
             <ion-icon
               class="icon"
-              name="folder-outline"
+              name="folder"
               (click)="navigateFolder(item)"
             ></ion-icon>
             <ion-card-content style="padding: 5px 10px">
@@ -35,7 +35,7 @@
             </ion-card-content>
           </ion-card>
           <ion-card *ngIf="item.includes('.')" class="item">
-            <ion-icon class="icon" name="document-outline"></ion-icon>
+            <ion-icon class="icon" name="document"></ion-icon>
             <ion-card-content style="padding: 5px 10px">
               <span>{{item}}</span>
               <ion-icon
@@ -50,17 +50,5 @@
     </ion-grid>
   </div>
 
-  <ion-fab horizontal="end" vertical="bottom" slot="fixed">
-    <ion-fab-button color="dark">
-      <ion-icon md="caret-up" ios="chevron-up-circle-outline"></ion-icon>
-    </ion-fab-button>
-    <ion-fab-list side="top">
-      <ion-fab-button color="light">
-        <ion-icon name="cloud-upload"></ion-icon>
-      </ion-fab-button>
-      <ion-fab-button color="light">
-        <ion-icon name="folder-open"></ion-icon>
-      </ion-fab-button>
-    </ion-fab-list>
-  </ion-fab>
+  <app-fab (newFolder)="createFolder($event)"></app-fab>
 </ion-content>
