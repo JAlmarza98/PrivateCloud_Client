@@ -1,0 +1,45 @@
+<ion-header>
+  <ion-toolbar>
+    <ion-buttons slot="start">
+      <ion-button color="medium" (click)="cancel()">Cancelar</ion-button>
+    </ion-buttons>
+    <ion-title>Subir archivo</ion-title>
+    <ion-buttons slot="end">
+      <ion-button (click)="confirm()">Subir</ion-button>
+    </ion-buttons>
+  </ion-toolbar>
+</ion-header>
+<ion-content class="ion-padding">
+  <ion-label position="stacked">Seleccione los archivos</ion-label>
+  <ion-card>
+    <ion-card-content>
+      <span expand="block" for="file-upload" class="btn btn-primary btn-file">
+        <ion-icon name="cloud-upload-outline" class="ion-margin-end"></ion-icon>
+        Subir archivo
+        <input
+          id="file-upload"
+          type="file"
+          ng2FileSelect
+          [uploader]="file"
+          multiple
+          (change)="changes()"
+        />
+      </span>
+    </ion-card-content>
+  </ion-card>
+  <ion-card>
+    <ion-list *ngIf="filesObjectLike">
+      <ion-item *ngFor="let item of filesObjectLike">
+        <ion-label>{{ item.name }}</ion-label>
+        <ion-button
+          slot="end"
+          fill="clear"
+          color="medium"
+          (click)="onDeleteFile(item)"
+        >
+          <ion-icon slot="icon-only" name="close-outline"></ion-icon>
+        </ion-button>
+      </ion-item>
+    </ion-list>
+  </ion-card>
+</ion-content>

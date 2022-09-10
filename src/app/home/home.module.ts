@@ -8,8 +8,9 @@ import { HomePageRoutingModule } from './home-routing.module';
 
 import { FabComponent } from 'app/components/fab/fab.component';
 import { SideMenuComponent } from 'app/components/side-menu/side-menu.component';
-import { BreadcrumbComponent } from 'app/components/breadcrumb/breadcrumb.component';
 import { NewFolderComponent } from 'app/components/modals/new-folder/new-folder.component';
+import { NewFileComponent } from 'app/components/modals/new-file/new-file.component';
+import { FileUploadModule } from 'ng2-file-upload';
 
 
 @NgModule({
@@ -17,14 +18,15 @@ import { NewFolderComponent } from 'app/components/modals/new-folder/new-folder.
     CommonModule,
     FormsModule,
     IonicModule,
-    HomePageRoutingModule
+    HomePageRoutingModule,
+    FileUploadModule
   ],
   declarations: [
     HomePage,
     SideMenuComponent,
-    BreadcrumbComponent,
     FabComponent,
-    NewFolderComponent
+    NewFolderComponent,
+    NewFileComponent,
   ]
 })
 export class HomePageModule {}

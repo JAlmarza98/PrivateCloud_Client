@@ -24,14 +24,17 @@
 
     <ion-card>
       <ion-card-header>
-        <ion-card-subtitle>Capacidad de la nube</ion-card-subtitle>
+        <ion-card-subtitle
+          >Capacidad de la nube
+          <span *ngIf="disk">({{ disk.capacity }})</span></ion-card-subtitle
+        >
       </ion-card-header>
       <ion-card-content *ngIf="disk">
         <ion-item class="ion-activated" lines="none">
           <ion-progress-bar [value]="capacityValue"></ion-progress-bar>
         </ion-item>
         <span style="float: right; padding-bottom: 5px">
-          {{ disk.used }}/{{ disk.total }}
+          {{ disk.used }} usados de {{ disk.total }}
         </span>
       </ion-card-content>
       <ion-card-content *ngIf="!disk">

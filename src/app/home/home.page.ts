@@ -5,6 +5,9 @@ import { StorageService } from 'app/services/storage.service';
 import { TOKEN_KEY } from 'app/services/authentication.service';
 import { ActionSheetController, AlertController, LoadingController } from '@ionic/angular';
 import { finalize } from 'rxjs/operators';
+import { FileUploader, FileLikeObject } from  'ng2-file-upload';
+import { concat } from 'rxjs';
+
 @Component({
   selector: 'app-home',
   templateUrl: 'home.page.html',
@@ -15,6 +18,11 @@ export class HomePage implements OnInit{
   content: Array<string> = [];
   route!: string;
   token!: string;
+  selectedFolder!: string;
+  folderPath!: Array<string>;
+
+  public fileUploader: FileUploader = new FileUploader({});
+  public hasBaseDropZoneOver = false;
 
   constructor(
     private cloudService: CloudStorageService,
@@ -41,6 +49,8 @@ export class HomePage implements OnInit{
       if(resp.success) {
         this.content = [...resp.content.directories, ...resp.content.files];
         this.route = resp.path.replaceAll('\\', '_');
+        this.folderPath = this.route.split('_');
+        this.selectedFolder = this.folderPath[this.folderPath.length - 1];
       } else {
         this.content = [];
       }
@@ -82,6 +92,17 @@ export class HomePage implements OnInit{
     }
   }
 
+  segmentChanged(folderSelected: string) {
+    const folderPath = this.route.split('_');
+    const folderSplit = folderPath;
+    const folderIndex = folderSplit.findIndex(folder => folder === folderSelected);
+    folderSplit.splice(folderIndex + 1);
+
+    let routeTo = folderSplit.join('_');
+    routeTo = this.formatPathToNavigate(routeTo);
+    this.getFolderContent(routeTo);
+  }
+
   async deleteItem(item: string) {
     let routeTo = `${this.route}_${item}`;
     routeTo = this.formatPathToNavigate(routeTo);
@@ -118,6 +139,38 @@ export class HomePage implements OnInit{
         await alert.present();
       }
     });
+  }
+
+  async uploadFile(files: FileLikeObject[]) {
+    const requests = [];
+
+    files.forEach((file) => {
+      const formData = new FormData();
+      formData.append('file' , file.rawFile, file.name);
+      requests.push(this.cloudService.uploadFilesToCloud(this.token,this.formatPathToNavigate(this.route), formData ));
+    });
+
+    concat(...requests).subscribe(
+      async (res: {success: boolean; msg: string}) => {
+        if(res.success) {
+          this.getFolderContent(this.formatPathToNavigate(this.route));
+        } else {
+          const alert = await this.alertController.create({
+            header: res.msg,
+            buttons: ['OK'],
+          });
+          await alert.present();
+        }
+      },
+      async (err) => {
+          const alert = await this.alertController.create({
+            header: 'Error',
+            message: 'El archivo nop ha podido subirse a la nube',
+            buttons: ['OK'],
+          });
+          await alert.present();
+      }
+    );
   }
 
   async showActions(item: string) {

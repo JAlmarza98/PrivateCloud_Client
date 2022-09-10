@@ -28,4 +28,8 @@ export class CloudStorageService {
   deleteCloudItem(token: string, route: string = '') {
     return this.http.delete(`${baseURL}/dir/${route}`,  {headers: {Authorization: token}});
   }
+
+  uploadFilesToCloud(token: string, route: string = '', files: any) {
+    return this.http.post(`${baseURL}/files/upload/${route}`, files ,{headers: {Authorization: token}});
+  }
 }
