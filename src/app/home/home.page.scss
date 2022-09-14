@@ -13,5 +13,14 @@
 }
 
 ion-content {
-  --overflow: hidden !important;
+  --height: 100vh;
+  --padding-bottom: 64px
+}
+
+app-fab {
+  position:fixed;
+   left:0px;
+   bottom:0px;
+   height:30px;
+   width:100%;
 }

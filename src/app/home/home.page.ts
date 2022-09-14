@@ -48,7 +48,8 @@ export class HomePage implements OnInit{
       .subscribe( async (resp: ICloudStorage ) => {
       if(resp.success) {
         this.content = [...resp.content.directories, ...resp.content.files];
-        this.route = resp.path.replaceAll('\\', '_');
+        // TODO: modificar para que sea independiente del SO
+        this.route = resp.path.replaceAll('/' , '_');
         this.folderPath = this.route.split('_');
         this.selectedFolder = this.folderPath[this.folderPath.length - 1];
       } else {
